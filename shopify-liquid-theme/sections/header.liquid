@@ -1,0 +1,459 @@
+{%- comment -%} Rebuilt entire header to match Lovable's exact navigation structure {%- endcomment -%}
+<style>
+  .broadcast-header {
+    /* Changed from position: fixed to position: absolute so header overlays hero without white gap */
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 50;
+    transition: all 0.3s ease;
+    background: transparent;
+  }
+
+  /* Updated scrolled header background to use Lilac brand color with transparency */
+  .broadcast-header.scrolled {
+    background: rgba(186, 148, 255, 0.15);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(186, 148, 255, 0.2);
+  }
+
+  .header-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 1rem 1.5rem;
+  }
+
+  .header-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  /* Logo styling matching Lovable exactly */
+  .header-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .header-logo:hover {
+    opacity: 0.8;
+  }
+
+  .header-logo .flame-icon {
+    width: 32px;
+    height: 32px;
+    color: #FF5722;
+    animation: glow 2s ease-in-out infinite;
+  }
+
+  @keyframes glow {
+    0%, 100% { filter: drop-shadow(0 0 8px rgba(255, 87, 34, 0.6)); }
+    50% { filter: drop-shadow(0 0 16px rgba(255, 87, 34, 0.8)); }
+  }
+
+  .header-logo-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #FF5722, #FF8A65);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Desktop navigation - hidden on mobile, shown on md+ */
+  .header-nav {
+    display: none;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    .header-nav {
+      display: flex;
+    }
+  }
+
+  .header-nav a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    font-weight: 500;
+    position: relative;
+    transition: color 0.2s ease;
+  }
+
+  /* Updated hover color to Hot Pink brand color */
+  .header-nav a:hover {
+    color: #FF2E7E;
+  }
+
+  /* Updated underline gradient to use Hot Pink to Lilac */
+  .header-nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #FF2E7E, #BA94FF);
+    transition: width 0.3s ease;
+  }
+
+  .header-nav a:hover::after {
+    width: 100%;
+  }
+
+  /* Active state for navigation links */
+  .header-nav a.active {
+    color: #FF5722;
+  }
+
+  /* Removed the active state underline so it only appears on hover */
+  .header-nav a.active::after {
+    width: 0;
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  /* Updated cart and menu button backgrounds to use Lilac brand color */
+  .cart-button,
+  .menu-button {
+    /* Subtle lilac background with transparency */
+    background: rgba(186, 148, 255, 0.12);
+    border: 1px solid rgba(186, 148, 255, 0.3);
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    /* Explicitly set color to white */
+    color: #ffffff !important;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    position: relative;
+  }
+
+  /* Ensure SVG inherits the color */
+  .cart-button svg,
+  .menu-button svg {
+    stroke: currentColor;
+  }
+
+  .cart-button:hover {
+    /* Stronger lilac background on hover */
+    background: rgba(186, 148, 255, 0.25);
+    border-color: rgba(186, 148, 255, 0.5);
+    /* Cart icon turns hot pink on hover */
+    color: #FF2E7E !important;
+  }
+
+  /* Cart icon is hot pink when on cart page */
+  .cart-button.active {
+    color: #FF2E7E !important;
+    border-color: rgba(255, 46, 126, 0.6);
+    background: rgba(255, 46, 126, 0.15);
+  }
+
+  .menu-button:hover {
+    /* Stronger lilac background on hover */
+    background: rgba(186, 148, 255, 0.25);
+    /* Icons turn hot pink on hover */
+    color: #FF2E7E !important;
+  }
+
+  .menu-button.active {
+    border-color: rgba(186, 148, 255, 0.5);
+    /* Stronger lilac background when active */
+    background: rgba(186, 148, 255, 0.25);
+  }
+
+  .cart-count {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: #FF2E7E;
+    color: white;
+    font-size: 0.625rem;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    padding: 0 4px;
+  }
+
+  /* Hamburger to X animation */
+  .menu-button {
+    /* Show hamburger only on mobile, hide on tablet/desktop */
+    display: flex;
+  }
+
+  /* Hide hamburger on desktop/tablet (768px+) */
+  @media (min-width: 768px) {
+    .menu-button {
+      display: none !important;
+    }
+  }
+
+  .hamburger-icon {
+    width: 24px;
+    height: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  /* Ensure hamburger lines are white by default */
+  .hamburger-line {
+    width: 100%;
+    height: 2px;
+    background: #ffffff;
+    transition: all 0.3s ease;
+    transform-origin: center;
+  }
+
+  /* Hamburger lines turn hot pink when button is hovered */
+  .menu-button:hover .hamburger-line {
+    background: #FF2E7E;
+  }
+
+  /* Transform hamburger to X when active */
+  .menu-button.active .hamburger-line:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+
+  .menu-button.active .hamburger-line:nth-child(2) {
+    opacity: 0;
+  }
+
+  .menu-button.active .hamburger-line:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+
+  /* Mobile menu drawer matching Lovable */
+  .mobile-menu-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 199;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .mobile-menu-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Updated mobile menu drawer background to use Lilac brand color */
+  .mobile-menu-drawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 85%;
+    max-width: 380px;
+    background: rgba(186, 148, 255, 0.15);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    z-index: 200;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    overflow-y: auto;
+    border-right: 1px solid rgba(186, 148, 255, 0.3);
+  }
+
+  .mobile-menu-drawer.active {
+    transform: translateX(0);
+  }
+
+  /* Mobile menu header with centered flame icon */
+  .mobile-menu-header {
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .mobile-menu-header .flame-icon {
+    width: 64px;
+    height: 64px;
+    color: #FF5722;
+  }
+
+  /* Mobile menu navigation matching Lovable exactly */
+  .mobile-menu-nav {
+    padding: 1rem 0 0.5rem;
+    animation: fadeInSlideDown 0.3s ease;
+  }
+
+  @keyframes fadeInSlideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .mobile-menu-nav a {
+    display: block;
+    padding: 0.75rem 1.5rem;
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: color 0.2s ease;
+  }
+
+  .mobile-menu-nav a:hover {
+    color: #FF2E7E;
+  }
+
+  /* Active state for mobile menu links uses hot pink */
+  .mobile-menu-nav a.active {
+    color: #FF2E7E;
+    border-left: 3px solid #FF2E7E;
+    background: rgba(255, 46, 126, 0.1);
+  }
+</style>
+
+<nav class="broadcast-header">
+  <div class="header-container">
+    <div class="header-wrapper">
+      {%- comment -%} Logo with flame icon and gradient text {%- endcomment -%}
+      <a href="{{ routes.root_url }}" class="header-logo">
+        <svg class="flame-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
+        </svg>
+        <span class="header-logo-text">Plated by Py</span>
+      </a>
+
+      {%- comment -%} Desktop navigation - hidden on mobile, flex on md+ {%- endcomment -%}
+      <div class="header-nav">
+        <a href="{{ routes.root_url }}">Home</a>
+        <a href="{{ routes.collections_url }}"{% if request.page_type == 'collection' or request.page_type == 'product' %} class="active"{% endif %}>Products</a>
+        <a href="/pages/recipes"{% if request.path contains '/pages/recipes' %} class="active"{% endif %}>Recipes</a>
+        <a href="/pages/about"{% if request.path contains '/pages/about' %} class="active"{% endif %}>About</a>
+      </div>
+
+      {%- comment -%} Cart button and hamburger menu {%- endcomment -%}
+      <div class="header-actions">
+        {%- comment -%} Add active class when on cart page {%- endcomment -%}
+        <a href="{{ routes.cart_url }}" class="cart-button{% if request.page_type == 'cart' %} active{% endif %}" aria-label="Shopping cart">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="21" r="1"/>
+            <circle cx="20" cy="21" r="1"/>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+          </svg>
+          {% if cart.item_count > 0 %}
+            <span class="cart-count">{{ cart.item_count }}</span>
+          {% endif %}
+        </a>
+
+        <button class="menu-button" data-menu-toggle aria-label="Menu">
+          <div class="hamburger-icon">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+{%- comment -%} Mobile menu overlay and drawer {%- endcomment -%}
+<div class="mobile-menu-overlay" data-menu-overlay></div>
+<div class="mobile-menu-drawer" data-menu-drawer>
+  <div class="mobile-menu-header">
+    <svg class="flame-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
+    </svg>
+  </div>
+  
+  <div class="mobile-menu-nav">
+    <a href="{{ routes.root_url }}">Home</a>
+    <a href="{{ routes.collections_url }}"{% if request.page_type == 'collection' or request.page_type == 'product' %} class="active"{% endif %}>Products</a>
+    <a href="/pages/recipes"{% if request.path contains '/pages/recipes' %} class="active"{% endif %}>Recipes</a>
+    <a href="/pages/about"{% if request.path contains '/pages/about' %} class="active"{% endif %}>About</a>
+  </div>
+</div>
+
+<script>
+  (function() {
+    const header = document.querySelector('.broadcast-header');
+    const menuToggle = document.querySelector('[data-menu-toggle]');
+    const menuDrawer = document.querySelector('[data-menu-drawer]');
+    const menuOverlay = document.querySelector('[data-menu-overlay]');
+
+    // Scroll behavior for header background
+    function handleScroll() {
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+
+    // Mobile menu toggle
+    function toggleMenu() {
+      const isOpen = menuToggle.classList.contains('active');
+      
+      if (isOpen) {
+        menuToggle.classList.remove('active');
+        menuDrawer.classList.remove('active');
+        menuOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+      } else {
+        menuToggle.classList.add('active');
+        menuDrawer.classList.add('active');
+        menuOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    if (menuToggle) {
+      menuToggle.addEventListener('click', toggleMenu);
+    }
+
+    if (menuOverlay) {
+      menuOverlay.addEventListener('click', toggleMenu);
+    }
+
+    // Close on escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && menuDrawer.classList.contains('active')) {
+        toggleMenu();
+      }
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": []
+}
+{% endschema %}

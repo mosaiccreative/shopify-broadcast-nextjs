@@ -1,0 +1,195 @@
+<style>
+.recipes-section {
+  padding: 4rem 2rem;
+  background: #fafafa;
+}
+
+.recipes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 2.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.recipe-card {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  animation: fadeUp 0.6s ease forwards;
+}
+
+.recipe-card:nth-child(1) { animation-delay: 0.1s; }
+.recipe-card:nth-child(2) { animation-delay: 0.2s; }
+.recipe-card:nth-child(3) { animation-delay: 0.3s; }
+.recipe-card:nth-child(4) { animation-delay: 0.4s; }
+.recipe-card:nth-child(5) { animation-delay: 0.5s; }
+.recipe-card:nth-child(6) { animation-delay: 0.6s; }
+
+.recipe-card:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 20px 40px rgba(255, 46, 126, 0.2);
+}
+
+.recipe-card__image {
+  position: relative;
+  height: 280px;
+  overflow: hidden;
+}
+
+.recipe-card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.recipe-card:hover .recipe-card__image img {
+  transform: scale(1.1);
+}
+
+.recipe-card__heat {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(255, 46, 126, 0.95);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  backdrop-filter: blur(10px);
+}
+
+.recipe-card__content {
+  padding: 2rem;
+}
+
+.recipe-card__date {
+  font-size: 0.875rem;
+  color: #BA94FF;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.recipe-card__title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  line-height: 1.3;
+}
+
+.recipe-card__title a {
+  color: #1a1a1a;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.recipe-card__title a:hover {
+  color: #FF2E7E;
+}
+
+.recipe-card__excerpt {
+  color: #666;
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+.recipe-card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #FF2E7E;
+  font-weight: 600;
+  text-decoration: none;
+  transition: gap 0.3s ease;
+}
+
+.recipe-card__link:hover {
+  gap: 0.75rem;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .recipes-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+</style>
+
+<section class="recipes-section">
+  <div class="recipes-grid">
+    {% if blogs[section.settings.blog_handle].articles_count > 0 %}
+      {% for article in blogs[section.settings.blog_handle].articles %}
+        <article class="recipe-card">
+          <div class="recipe-card__image">
+            {% if article.image %}
+              <img src="{{ article.image | image_url: width: 600 }}" 
+                   alt="{{ article.image.alt | escape }}"
+                   loading="lazy">
+            {% else %}
+              <img src="{{ 'placeholder.svg' | asset_url }}" alt="{{ article.title | escape }}">
+            {% endif %}
+            
+            {% if article.tags contains 'spicy' or article.tags contains 'hot' or article.tags contains 'medium' %}
+              <div class="recipe-card__heat">
+                🌶️
+                {% if article.tags contains 'hot' %}Hot{% endif %}
+                {% if article.tags contains 'medium' %}Medium{% endif %}
+                {% if article.tags contains 'spicy' %}Spicy{% endif %}
+              </div>
+            {% endif %}
+          </div>
+          
+          <div class="recipe-card__content">
+            <div class="recipe-card__date">{{ article.published_at | date: '%B %d, %Y' }}</div>
+            <h2 class="recipe-card__title">
+              <a href="{{ article.url }}">{{ article.title }}</a>
+            </h2>
+            <div class="recipe-card__excerpt">
+              {{ article.excerpt_or_content | strip_html | truncatewords: 25 }}
+            </div>
+            <a href="{{ article.url }}" class="recipe-card__link">
+              Read Recipe →
+            </a>
+          </div>
+        </article>
+      {% endfor %}
+    {% else %}
+      <div style="grid-column: 1 / -1; text-align: center; padding: 4rem 2rem; color: #666;">
+        <p style="font-size: 1.25rem;">No recipes yet. Check back soon for delicious heat-inspired recipes!</p>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Recipes Grid",
+  "settings": [
+    {
+      "type": "blog",
+      "id": "blog_handle",
+      "label": "Blog",
+      "info": "Select the blog to display recipes from"
+    }
+  ]
+}
+{% endschema %}

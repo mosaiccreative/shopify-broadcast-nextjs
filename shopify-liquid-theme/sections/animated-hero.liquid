@@ -1,0 +1,85 @@
+{% comment %}
+  Example section showing how to use scroll animations
+{% endcomment %}
+
+<section 
+  class="animated-hero"
+  data-scroll-animate="fade-up"
+  style="min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #1e1e1e 0%, #3e2723 100%); color: white; text-align: center; padding: 2rem;"
+>
+  <div class="hero-content" style="max-width: 1200px;">
+    <h1 
+      data-animate="fade-up"
+      style="font-size: clamp(3rem, 8vw, 6rem); font-weight: 700; margin-bottom: 1rem; line-height: 1.1;"
+    >
+      {{ section.settings.heading | default: "Craft Hot Sauce" }}
+    </h1>
+    
+    <p 
+      data-animate="fade-up"
+      style="font-size: clamp(1.25rem, 2.5vw, 1.75rem); margin-bottom: 2rem; opacity: 0.9; max-width: 600px; margin-left: auto; margin-right: auto;"
+    >
+      {{ section.settings.subheading | default: "Small batch. Big flavor. Artisanal heat." }}
+    </p>
+    
+    <div 
+      data-animate="fade-up"
+      style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;"
+    >
+      {% if section.settings.button_text %}
+        <a 
+          href="{{ section.settings.button_url }}"
+          style="padding: 1rem 2.5rem; background: #ff6b35; color: white; text-decoration: none; border-radius: 50px; font-weight: 600; font-size: 1.125rem; transition: transform 0.3s ease, box-shadow 0.3s ease;"
+          onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 10px 30px rgba(255,107,53,0.4)'"
+          onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'"
+        >
+          {{ section.settings.button_text }}
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<style>
+  .animated-hero h1,
+  .animated-hero p,
+  .animated-hero [data-animate] {
+    transition-delay: calc(var(--stagger-delay, 0ms) + 0.2s);
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Animated Hero",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Craft Hot Sauce"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Small batch. Big flavor. Artisanal heat."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button URL"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Animated Hero"
+    }
+  ]
+}
+{% endschema %}

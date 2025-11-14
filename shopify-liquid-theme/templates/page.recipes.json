@@ -1,0 +1,18 @@
+{
+  "sections": {
+    "recipes-hero": {
+      "type": "recipes-hero",
+      "settings": {
+        "title": "Flavor in Motion",
+        "subtitle": "Explore recipes that bring heat to your kitchen. From traditional Indian classics to modern fusion dishes, discover new ways to ignite your palate."
+      }
+    },
+    "recipes-grid": {
+      "type": "recipes-grid",
+      "settings": {
+        "blog_handle": "recipes"
+      }
+    }
+  },
+  "order": ["recipes-hero", "recipes-grid"]
+}

@@ -1,0 +1,571 @@
+{% comment %}
+  Scroll-triggered storytelling section with hot sauce animations
+  Inspired by Apple's product reveals
+{% endcomment %}
+
+<div class="scroll-story-wrapper" data-section-id="{{ section.id }}">
+  <!-- Scene 1: Bottle Introduction -->
+  <section class="scroll-scene" data-scene="1">
+    <div class="scene-content">
+      <div class="bottle-container" data-animate="bottle">
+        <svg class="bottle-svg" viewBox="0 0 200 400" xmlns="http://www.w3.org/2000/svg">
+          <!-- Bottle Cap -->
+          <g class="bottle-cap" data-animate="cap">
+            <rect x="70" y="20" width="60" height="30" rx="5" fill="#2C1810"/>
+            <circle cx="100" cy="35" r="20" fill="#8B4513"/>
+          </g>
+          
+          <!-- Bottle Body -->
+          <path d="M 80 50 Q 75 100, 70 150 L 70 350 Q 70 380, 100 380 Q 130 380, 130 350 L 130 150 Q 125 100, 120 50 Z" 
+                fill="url(#bottleGradient)" stroke="#2C1810" stroke-width="2"/>
+          
+          <!-- Label -->
+          <rect x="75" y="180" width="50" height="80" rx="3" fill="var(--color-turmeric)" opacity="0.9"/>
+          <text x="100" y="210" text-anchor="middle" font-size="12" fill="white" font-family="var(--font-display)">
+            {{ section.settings.bottle_text }}
+          </text>
+          
+          <!-- Sauce Level -->
+          <rect class="sauce-level" x="75" y="250" width="50" height="120" fill="#C41E3A" data-animate="sauce-fill"/>
+          
+          <!-- Gradients -->
+          <defs>
+            <linearGradient id="bottleGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" style="stop-color:#FFF8DC;stop-opacity:0.3" />
+              <stop offset="100%" style="stop-color:#8B4513;stop-opacity:0.1" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      
+      <div class="scene-text" data-animate="fade-in">
+        <h2 class="scene-headline">{{ section.settings.scene1_headline }}</h2>
+        <p class="scene-description">{{ section.settings.scene1_description }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scene 2: Cap Opening -->
+  <section class="scroll-scene" data-scene="2">
+    <div class="scene-content">
+      <div class="cap-reveal" data-animate="cap-twist">
+        <div class="cap-top"></div>
+        <div class="steam-particles">
+          <span class="particle"></span>
+          <span class="particle"></span>
+          <span class="particle"></span>
+        </div>
+      </div>
+      
+      <div class="scene-text" data-animate="fade-in">
+        <h2 class="scene-headline">{{ section.settings.scene2_headline }}</h2>
+        <p class="scene-description">{{ section.settings.scene2_description }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scene 3: Pouring Sauce -->
+  <section class="scroll-scene" data-scene="3">
+    <div class="scene-content">
+      <div class="pour-container" data-animate="pour">
+        <div class="sauce-stream"></div>
+        <div class="food-item">
+          <img src="{{ section.settings.food_image | image_url: width: 400 }}" 
+               alt="Food" 
+               width="400" 
+               height="400"
+               loading="lazy">
+        </div>
+        <div class="sauce-splash" data-animate="splash"></div>
+      </div>
+      
+      <div class="scene-text" data-animate="fade-in">
+        <h2 class="scene-headline">{{ section.settings.scene3_headline }}</h2>
+        <p class="scene-description">{{ section.settings.scene3_description }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scene 4: Heat Visualization -->
+  <section class="scroll-scene" data-scene="4">
+    <div class="scene-content">
+      <div class="heat-meter" data-animate="heat">
+        <div class="flame-container">
+          <div class="flame flame-1"></div>
+          <div class="flame flame-2"></div>
+          <div class="flame flame-3"></div>
+        </div>
+        <div class="heat-scale">
+          <span class="heat-level" data-level="mild">Mild</span>
+          <span class="heat-level" data-level="medium">Medium</span>
+          <span class="heat-level" data-level="hot">Hot</span>
+          <span class="heat-level active" data-level="fire">🔥 Fire</span>
+        </div>
+      </div>
+      
+      <div class="scene-text" data-animate="fade-in">
+        <h2 class="scene-headline">{{ section.settings.scene4_headline }}</h2>
+        <p class="scene-description">{{ section.settings.scene4_description }}</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<style>
+  .scroll-story-wrapper {
+    position: relative;
+    background: linear-gradient(180deg, #FFFBF5 0%, #FFF8F0 100%);
+  }
+
+  .scroll-scene {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    position: relative;
+  }
+
+  .scene-content {
+    max-width: 1200px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  @media (max-width: 768px) {
+    .scene-content {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+
+  /* Bottle Animation */
+  .bottle-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .bottle-svg {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    opacity: 0;
+    transform: scale(0.8) translateY(50px);
+    transition: all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .bottle-svg.animated {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+
+  .bottle-cap {
+    transform-origin: center;
+    transition: transform 1s ease-out;
+  }
+
+  .bottle-cap.twist {
+    transform: rotate(45deg) translateY(-20px);
+    opacity: 0;
+  }
+
+  .sauce-level {
+    transform-origin: bottom;
+    transform: scaleY(0);
+    transition: transform 1.5s ease-out;
+  }
+
+  .sauce-level.filled {
+    transform: scaleY(1);
+  }
+
+  /* Cap Opening Scene */
+  .cap-reveal {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+  }
+
+  .cap-top {
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, #8B4513 0%, #2C1810 100%);
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(0deg);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    transition: all 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  .cap-top.twisted {
+    transform: translate(-50%, -150%) rotate(180deg);
+    opacity: 0;
+  }
+
+  .steam-particles {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .particle {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: radial-gradient(circle, rgba(255,100,100,0.6), transparent);
+    border-radius: 50%;
+    opacity: 0;
+    filter: blur(8px);
+  }
+
+  .particle.active:nth-child(1) {
+    animation: float-up 2s ease-out;
+    left: -20px;
+  }
+
+  .particle.active:nth-child(2) {
+    animation: float-up 2s ease-out 0.3s;
+    left: 0px;
+  }
+
+  .particle.active:nth-child(3) {
+    animation: float-up 2s ease-out 0.6s;
+    left: 20px;
+  }
+
+  @keyframes float-up {
+    0% {
+      opacity: 0;
+      transform: translateY(0) scale(0.5);
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-100px) scale(1.5);
+    }
+  }
+
+  /* Pouring Scene */
+  .pour-container {
+    position: relative;
+    height: 500px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+
+  .sauce-stream {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 0;
+    background: linear-gradient(180deg, #C41E3A 0%, #8B0000 100%);
+    border-radius: 20px;
+    transition: height 1.5s ease-out;
+    opacity: 0;
+  }
+
+  .sauce-stream.pouring {
+    height: 300px;
+    opacity: 1;
+    animation: wobble 0.5s ease-in-out infinite;
+  }
+
+  @keyframes wobble {
+    0%, 100% { transform: translateX(-50%) scaleX(1); }
+    50% { transform: translateX(-50%) scaleX(1.2); }
+  }
+
+  .food-item {
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.8s ease-out;
+  }
+
+  .food-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .food-item img {
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+  }
+
+  .sauce-splash {
+    position: absolute;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%) scale(0);
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(196,30,58,0.6) 0%, transparent 70%);
+    border-radius: 50%;
+    transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  .sauce-splash.splashed {
+    transform: translateX(-50%) scale(1.5);
+    opacity: 0;
+  }
+
+  /* Heat Meter Scene */
+  .heat-meter {
+    text-align: center;
+  }
+
+  .flame-container {
+    position: relative;
+    height: 300px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .flame {
+    width: 60px;
+    height: 0;
+    background: linear-gradient(180deg, #FF4500 0%, #FFD700 50%, transparent 100%);
+    border-radius: 50% 50% 0 0;
+    opacity: 0;
+    transition: all 1s ease-out;
+    filter: blur(2px);
+  }
+
+  .flame.burning {
+    opacity: 1;
+    animation: flicker 1.5s ease-in-out infinite;
+  }
+
+  .flame-1.burning { height: 150px; }
+  .flame-2.burning { height: 200px; animation-delay: 0.2s; }
+  .flame-3.burning { height: 180px; animation-delay: 0.4s; }
+
+  @keyframes flicker {
+    0%, 100% { transform: scaleY(1); }
+    50% { transform: scaleY(1.1); }
+  }
+
+  .heat-scale {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 3rem;
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+  }
+
+  .heat-level {
+    padding: 0.75rem 1.5rem;
+    border: 2px solid var(--color-border);
+    border-radius: 50px;
+    opacity: 0.3;
+    transition: all 0.5s ease-out;
+  }
+
+  .heat-level.active {
+    opacity: 1;
+    background: var(--color-turmeric);
+    color: white;
+    border-color: var(--color-turmeric);
+    transform: scale(1.2);
+  }
+
+  /* Scene Text */
+  .scene-text {
+    opacity: 0;
+    transform: translateX(-30px);
+    transition: all 1s ease-out;
+  }
+
+  .scene-text.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .scene-headline {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 400;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    color: var(--color-text);
+  }
+
+  .scene-description {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+    max-width: 500px;
+  }
+</style>
+
+<script>
+  (() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const scene = entry.target;
+          const sceneNum = scene.dataset.scene;
+          
+          console.log('[v0] Scroll scene triggered:', sceneNum);
+          
+          // Trigger animations based on scene
+          switch(sceneNum) {
+            case '1':
+              animateScene1(scene);
+              break;
+            case '2':
+              animateScene2(scene);
+              break;
+            case '3':
+              animateScene3(scene);
+              break;
+            case '4':
+              animateScene4(scene);
+              break;
+          }
+          
+          // Animate text
+          const text = scene.querySelector('.scene-text');
+          if (text) text.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.5 });
+
+    function animateScene1(scene) {
+      const bottle = scene.querySelector('.bottle-svg');
+      const sauceLevel = scene.querySelector('.sauce-level');
+      
+      setTimeout(() => bottle.classList.add('animated'), 100);
+      setTimeout(() => sauceLevel.classList.add('filled'), 800);
+    }
+
+    function animateScene2(scene) {
+      const cap = scene.querySelector('.cap-top');
+      const particles = scene.querySelectorAll('.particle');
+      
+      setTimeout(() => cap.classList.add('twisted'), 200);
+      setTimeout(() => {
+        particles.forEach(p => p.classList.add('active'));
+      }, 1000);
+    }
+
+    function animateScene3(scene) {
+      const foodItem = scene.querySelector('.food-item');
+      const stream = scene.querySelector('.sauce-stream');
+      const splash = scene.querySelector('.sauce-splash');
+      
+      setTimeout(() => foodItem.classList.add('visible'), 100);
+      setTimeout(() => stream.classList.add('pouring'), 600);
+      setTimeout(() => splash.classList.add('splashed'), 1800);
+    }
+
+    function animateScene4(scene) {
+      const flames = scene.querySelectorAll('.flame');
+      const levels = scene.querySelectorAll('.heat-level');
+      
+      flames.forEach((flame, i) => {
+        setTimeout(() => flame.classList.add('burning'), i * 200);
+      });
+      
+      levels.forEach((level, i) => {
+        setTimeout(() => {
+          levels.forEach(l => l.classList.remove('active'));
+          level.classList.add('active');
+        }, i * 500);
+      });
+    }
+
+    // Observe all scenes
+    document.querySelectorAll('.scroll-scene').forEach(scene => {
+      observer.observe(scene);
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Scroll Story",
+  "settings": [
+    {
+      "type": "text",
+      "id": "bottle_text",
+      "label": "Bottle Label Text",
+      "default": "FIRE"
+    },
+    {
+      "type": "text",
+      "id": "scene1_headline",
+      "label": "Scene 1 Headline",
+      "default": "Crafted to Ignite"
+    },
+    {
+      "type": "textarea",
+      "id": "scene1_description",
+      "label": "Scene 1 Description",
+      "default": "Every bottle is a journey of bold flavors, carefully crafted to bring heat and harmony to your palate."
+    },
+    {
+      "type": "text",
+      "id": "scene2_headline",
+      "label": "Scene 2 Headline",
+      "default": "Unleash the Heat"
+    },
+    {
+      "type": "textarea",
+      "id": "scene2_description",
+      "label": "Scene 2 Description",
+      "default": "The moment the cap twists open, aromatic steam rises—a preview of the fire within."
+    },
+    {
+      "type": "text",
+      "id": "scene3_headline",
+      "label": "Scene 3 Headline",
+      "default": "Transform Every Bite"
+    },
+    {
+      "type": "textarea",
+      "id": "scene3_description",
+      "label": "Scene 3 Description",
+      "default": "Watch as our signature sauce flows over your favorite dishes, turning ordinary meals into extraordinary experiences."
+    },
+    {
+      "type": "image_picker",
+      "id": "food_image",
+      "label": "Food Image"
+    },
+    {
+      "type": "text",
+      "id": "scene4_headline",
+      "label": "Scene 4 Headline",
+      "default": "Feel the Fire"
+    },
+    {
+      "type": "textarea",
+      "id": "scene4_description",
+      "label": "Scene 4 Description",
+      "default": "From mild warmth to blazing intensity—find your perfect heat level and ignite your taste buds."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Scroll Story"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,390 @@
+{%- style -%}
+  #broadcast-hero-{{ section.id }} {
+    position: relative;
+    height: 110vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-top: 0;
+    padding-top: 0;
+    /* Added negative margin to compensate for header height */
+    margin-top: -80px;
+    padding-top: 80px;
+  }
+
+  /* Use ::before pseudo-element for more reliable dark overlay */
+  #broadcast-hero-{{ section.id }}::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.40) 0%,
+      rgba(0, 0, 0, 0.42) 50%,
+      rgba(0, 0, 0, 0.45) 100%
+    );
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  #broadcast-hero-{{ section.id }} .hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  #broadcast-hero-{{ section.id }} .hero-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  #broadcast-hero-{{ section.id }} .hero-content {
+    position: relative;
+    z-index: 10;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    text-align: center;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-12px); }
+  }
+
+  @keyframes glow {
+    0%, 100% { 
+      filter: drop-shadow(0 0 20px rgba(255, 87, 34, 0.6));
+    }
+    50% { 
+      filter: drop-shadow(0 0 30px rgba(255, 87, 34, 0.9));
+    }
+  }
+
+  #broadcast-hero-{{ section.id }} .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  /* Exact Lovable flame icon sizing - 80px on desktop, 64px on mobile */
+  #broadcast-hero-{{ section.id }} .hero-flame-icon {
+    /* Fluid scaling: 64px at 320px → 80px at 1920px */
+    width: clamp(64px, 60px + 2.5vw, 80px);
+    height: clamp(64px, 60px + 2.5vw, 80px);
+    margin: 0 auto 1.5rem;
+    color: #FF5722;
+    animation: glow 2s ease-in-out infinite;
+    transition: width 0.3s ease, height 0.3s ease;
+  }
+
+  /* Exact Lovable typography - Playfair Display, 6rem mobile → 8rem desktop */
+  #broadcast-hero-{{ section.id }} .hero-heading {
+    font-family: 'Playfair Display', Georgia, serif;
+    /* Fluid scaling: 3.75rem (60px) at 320px viewport → 8rem (128px) at 1920px viewport */
+    font-size: clamp(3.75rem, 2.5rem + 6.25vw, 8rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    transition: font-size 0.3s ease;
+  }
+
+  #broadcast-hero-{{ section.id }} .bg-gradient-fire {
+    background: linear-gradient(135deg, #FF5722 0%, #FF8A65 50%, #FF5722 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% auto;
+    animation: gradient-shift 3s ease infinite;
+  }
+
+  #broadcast-hero-{{ section.id }} .text-foreground {
+    color: #FFFFFF;
+  }
+
+  /* Exact Lovable description sizing - 1.25rem mobile → 1.5rem desktop */
+  #broadcast-hero-{{ section.id }} .hero-text {
+    /* Fluid scaling: 1.125rem (18px) at 320px → 1.5rem (24px) at 1920px */
+    font-size: clamp(1.125rem, 1rem + 0.625vw, 1.5rem);
+    line-height: 1.75;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 2rem;
+    max-width: 672px;
+    margin-left: auto;
+    margin-right: auto;
+    transition: font-size 0.3s ease;
+  }
+
+  #broadcast-hero-{{ section.id }} .hero-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #broadcast-hero-{{ section.id }} .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: #FF2E7E;
+    color: white;
+    padding: 0.75rem 2rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+
+  #broadcast-hero-{{ section.id }} .btn-primary:hover {
+    background: #FF4D94;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(255, 46, 126, 0.4);
+  }
+
+  #broadcast-hero-{{ section.id }} .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    color: white;
+    padding: 0.75rem 2rem;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+
+  #broadcast-hero-{{ section.id }} .btn-secondary:hover {
+    border-color: white;
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  /* Respect reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    #broadcast-hero-{{ section.id }} .hero-flame-icon {
+      animation: none;
+    }
+    
+    #broadcast-hero-{{ section.id }} .btn-primary:hover,
+    #broadcast-hero-{{ section.id }} .btn-secondary:hover {
+      transform: none;
+    }
+  }
+{%- endstyle -%}
+
+<div id="broadcast-hero-{{ section.id }}" class="broadcast-hero-section" data-scroll-animate="fade-up">
+  {%- comment -%} Added fallback to use the fire hero image URL if no image is selected {%- endcomment -%}
+  <div class="hero-background">
+    {% if section.settings.image != blank %}
+      <img
+        src="{{ section.settings.image | img_url: '1920x1080' }}"
+        alt="Artisan hot sauce bottles with flames"
+        class="hero-image"
+        loading="eager"
+        width="1920"
+        height="1080"
+      >
+    {% else %}
+      {%- comment -%} Fixed fallback image to use Shopify CDN URL {%- endcomment -%}
+      <img
+        src="https://cdn.shopify.com/s/files/1/0868/5676/2937/files/hero-fire-EMSUoQ9g.jpg?v=1736793824"
+        alt="Artisan hot sauce bottles with flames"
+        class="hero-image"
+        loading="eager"
+        width="1920"
+        height="1080"
+      >
+    {% endif %}
+    {%- comment -%} Removed separate overlay div, using ::before pseudo-element instead {%- endcomment -%}
+  </div>
+
+  <div class="hero-content">
+    {%- comment -%} Exact Lucide flame icon SVG from Lovable {%- endcomment -%}
+    <div class="animate-float">
+      <svg class="hero-flame-icon" xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
+      </svg>
+    </div>
+
+    <h1 class="hero-heading">
+      <span class="bg-gradient-fire">{{ section.settings.heading_first_part }}</span><br>
+      <span class="text-foreground">{{ section.settings.heading_second_part }}</span>
+    </h1>
+
+    {% if section.settings.text != blank %}
+      <div class="hero-text" data-animate="fade-up" data-delay="200" style="max-width: {{ section.settings.content_width }}px;">
+        {{ section.settings.text }}
+      </div>
+    {% endif %}
+
+    {% if section.settings.button_label_1 != blank or section.settings.button_label_2 != blank %}
+      <div class="hero-buttons" data-animate="fade-up" data-delay="300">
+        {% if section.settings.button_label_1 != blank %}
+          <a href="{{ section.settings.button_link_1 | default: '/collections/all' }}" class="btn-primary">
+            {{ section.settings.button_label_1 }}
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12"/>
+              <polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </a>
+        {% endif %}
+
+        {% if section.settings.button_label_2 != blank %}
+          <a href="{{ section.settings.button_link_2 | default: '/pages/recipes' }}" class="btn-secondary">
+            {{ section.settings.button_label_2 }}
+          </a>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Hero Banner",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background Image"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "label": "Image Overlay Opacity",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "height",
+      "min": 40,
+      "max": 100,
+      "step": 5,
+      "unit": "vh",
+      "label": "Section Height",
+      "default": 80
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow Text",
+      "default": "Touch. Carry. Connect."
+    },
+    {
+      "type": "text",
+      "id": "heading_first_part",
+      "label": "First Part of Heading",
+      "default": "Regal Roots,"
+    },
+    {
+      "type": "text",
+      "id": "heading_second_part",
+      "label": "Second Part of Heading",
+      "default": "Modern Plates"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Description",
+      "default": "Handcrafted hot sauces that blend bold flavors with wellness.\nZero sugar. Low sodium. Pure fire."
+    },
+    {
+      "type": "text",
+      "id": "button_label_1",
+      "label": "First Button Label",
+      "default": "Shop Hot Sauces"
+    },
+    {
+      "type": "url",
+      "id": "button_link_1",
+      "label": "First Button Link"
+    },
+    {
+      "type": "text",
+      "id": "button_label_2",
+      "label": "Second Button Label",
+      "default": "Explore Recipes"
+    },
+    {
+      "type": "url",
+      "id": "button_link_2",
+      "label": "Second Button Link"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text Alignment",
+      "options": [
+        {"value": "left", "label": "Left"},
+        {"value": "center", "label": "Center"},
+        {"value": "right", "label": "Right"}
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "vertical_alignment",
+      "label": "Vertical Alignment",
+      "options": [
+        {"value": "flex-start", "label": "Top"},
+        {"value": "center", "label": "Middle"},
+        {"value": "flex-end", "label": "Bottom"}
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "horizontal_alignment",
+      "label": "Horizontal Alignment",
+      "options": [
+        {"value": "flex-start", "label": "Left"},
+        {"value": "center", "label": "Center"},
+        {"value": "flex-end", "label": "Right"}
+      ],
+      "default": "center"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "content_width",
+      "min": 400,
+      "max": 1200,
+      "step": 50,
+      "unit": "px",
+      "label": "Content Max Width",
+      "default": 800
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Banner"
+    }
+  ]
+}
+{% endschema %}

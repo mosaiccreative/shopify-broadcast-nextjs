@@ -1,0 +1,295 @@
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+
+<style>
+.broadcast-products {
+  padding: 4rem 0;
+  position: relative;
+}
+
+.broadcast-products__title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  text-align: center;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  background: linear-gradient(135deg, #FF2E7E 0%, #BA94FF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.broadcast-products__subtitle {
+  font-family: 'Inter', sans-serif;
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 3rem;
+  color: #666;
+  font-size: 1.125rem;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 0.2s;
+}
+
+.broadcast-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.broadcast-card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 46, 126, 0.1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  opacity: 0;
+  animation: fadeUp 0.6s ease forwards;
+}
+
+.broadcast-card:nth-child(1) { animation-delay: 0.1s; }
+.broadcast-card:nth-child(2) { animation-delay: 0.2s; }
+.broadcast-card:nth-child(3) { animation-delay: 0.3s; }
+.broadcast-card:nth-child(4) { animation-delay: 0.4s; }
+.broadcast-card:nth-child(5) { animation-delay: 0.5s; }
+.broadcast-card:nth-child(6) { animation-delay: 0.6s; }
+
+.broadcast-card:hover {
+  transform: translateY(-12px) scale(1.02);
+  box-shadow: 0 25px 50px rgba(255, 46, 126, 0.25);
+  border-color: rgba(255, 46, 126, 0.3);
+}
+
+.broadcast-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 50% 0%, rgba(255, 46, 126, 0.15) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.broadcast-card:hover::before {
+  opacity: 1;
+}
+
+.broadcast-card__image {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1;
+}
+
+.broadcast-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.broadcast-card:hover img {
+  transform: scale(1.1) rotate(2deg);
+}
+
+.broadcast-card__content {
+  padding: 1.75rem;
+  position: relative;
+  z-index: 2;
+}
+
+.broadcast-card h3 {
+  font-family: 'Playfair Display', Georgia, serif;
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.broadcast-card h3 a {
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.3s ease;
+}
+
+.broadcast-card h3 a:hover {
+  color: #FF2E7E;
+}
+
+.broadcast-card__heat {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.75rem;
+  background: rgba(255, 46, 126, 0.1);
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #FF2E7E;
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.broadcast-card .price {
+  font-family: 'Inter', sans-serif;
+  color: #FF2E7E;
+  font-weight: 700;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.broadcast-button {
+  background: #FF2E7E;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  letter-spacing: 0.025em;
+  display: inline-block;
+  margin-top: 1rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none;
+  cursor: pointer;
+}
+
+.broadcast-button:hover {
+  background: linear-gradient(135deg, #FF2E7E 0%, #BA94FF 100%);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(255, 46, 126, 0.35);
+}
+
+.broadcast-view-all {
+  text-align: center;
+  margin-top: 4rem;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 0.7s;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .broadcast-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+}
+</style>
+
+<section class="broadcast-products page-width" data-scroll-animate="fade-up">
+  {% if section.settings.title != blank %}
+    <h2 class="broadcast-products__title">{{ section.settings.title }}</h2>
+  {% endif %}
+  
+  {% if section.settings.subtitle != blank %}
+    <p class="broadcast-products__subtitle">{{ section.settings.subtitle }}</p>
+  {% endif %}
+  
+  <div class="broadcast-grid">
+    {% for product in collections[section.settings.collection].products limit: section.settings.products_to_show %}
+      <div class="broadcast-card">
+        <div class="broadcast-card__image">
+          {% if product.featured_image %}
+            <img src="{{ product.featured_image | image_url: width: 600 }}" 
+                 alt="{{ product.featured_image.alt | escape }}"
+                 loading="lazy"
+                 width="600"
+                 height="600">
+          {% else %}
+            {{ 'product-1' | placeholder_svg_tag }}
+          {% endif %}
+        </div>
+        
+        <div class="broadcast-card__content">
+          {% if product.tags contains 'mild' or product.tags contains 'medium' or product.tags contains 'hot' or product.tags contains 'extra-hot' %}
+            <div class="broadcast-card__heat">
+              🌶️
+              {% if product.tags contains 'mild' %}Mild{% endif %}
+              {% if product.tags contains 'medium' %}Medium{% endif %}
+              {% if product.tags contains 'hot' %}Hot{% endif %}
+              {% if product.tags contains 'extra-hot' %}Extra Hot{% endif %}
+            </div>
+          {% endif %}
+          
+          <h3><a href="{{ product.url }}">{{ product.title }}</a></h3>
+          <div class="price">{{ product.price | money }}</div>
+          <a href="{{ product.url }}" class="broadcast-button">View Product</a>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  
+  {% if section.settings.show_view_all and section.settings.collection != blank %}
+    <div class="broadcast-view-all">
+      <a href="{{ collections[section.settings.collection].url }}" 
+         class="broadcast-button"
+         style="padding: 14px 32px; font-size: 1rem;">
+        View All {{ collections[section.settings.collection].title }}
+      </a>
+    </div>
+  {% endif %}
+</section>
+
+{% schema %}
+{
+  "name": "🌶️ Broadcast Products",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Featured Hot Sauces"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subheading",
+      "default": "Discover our award-winning collection"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Products to show",
+      "min": 2,
+      "max": 12,
+      "default": 6
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show view all button",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "🌶️ Broadcast Products"
+    }
+  ]
+}
+{% endschema %}

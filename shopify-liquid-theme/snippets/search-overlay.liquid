@@ -1,0 +1,43 @@
+<div class="search-overlay">
+  <div class="search-overlay-content">
+    <div class="search-header">
+      <h2 style="font-family: var(--font-display);">Search</h2>
+      <button class="cart-drawer-close" data-search-close aria-label="Close search">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    
+    <form action="{{ routes.search_url }}" method="get" class="search-form">
+      <input 
+        type="search" 
+        name="q" 
+        placeholder="Search products..." 
+        class="search-input"
+        data-search-input
+        autocomplete="off"
+      >
+    </form>
+    
+    <div class="search-results" data-search-results>
+      <div class="search-suggestions">
+        <h3>Popular Products</h3>
+        <div class="search-suggestions-grid">
+          {% for product in collections.all.products limit: 4 %}
+            <a href="{{ product.url }}" class="search-suggestion-item">
+              {% if product.featured_image %}
+                <img src="{{ product.featured_image | image_url: width: 80 }}" alt="{{ product.title | escape }}" loading="lazy">
+              {% endif %}
+              <div>
+                <h4>{{ product.title }}</h4>
+                <p>{{ product.price | money }}</p>
+              </div>
+            </a>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

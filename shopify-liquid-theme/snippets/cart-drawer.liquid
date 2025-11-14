@@ -1,0 +1,81 @@
+<div class="cart-drawer">
+  <div class="cart-drawer-header">
+    <h2>Cart (<span data-cart-count>{{ cart.item_count }}</span>)</h2>
+    <button class="cart-drawer-close" data-cart-close aria-label="Close cart">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+  
+  <div class="cart-drawer-body">
+    {% if cart.item_count > 0 %}
+      {% for item in cart.items %}
+        <div class="cart-item" data-cart-item="{{ item.key }}">
+          <div class="cart-item-image">
+            {% if item.image %}
+              <img src="{{ item.image | image_url: width: 100 }}" alt="{{ item.title | escape }}" loading="lazy">
+            {% endif %}
+          </div>
+          
+          <div class="cart-item-details">
+            <h4>{{ item.product.title }}</h4>
+            {% unless item.variant.title contains 'Default' %}
+              <p class="cart-item-variant">{{ item.variant.title }}</p>
+            {% endunless %}
+            
+            <div class="cart-item-quantity">
+              <button class="qty-btn" data-cart-update="{{ item.key }}" data-quantity="{{ item.quantity | minus: 1 }}" aria-label="Decrease quantity">−</button>
+              <span class="qty-value">{{ item.quantity }}</span>
+              <button class="qty-btn" data-cart-update="{{ item.key }}" data-quantity="{{ item.quantity | plus: 1 }}" aria-label="Increase quantity">+</button>
+            </div>
+          </div>
+          
+          <div class="cart-item-price">
+            <p>{{ item.final_line_price | money }}</p>
+            <button class="cart-item-remove" data-cart-remove="{{ item.key }}" aria-label="Remove item">Remove</button>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <div class="cart-empty">
+        <p>Your cart is empty</p>
+        <a href="/collections/all" class="btn btn-secondary">Continue Shopping</a>
+      </div>
+    {% endif %}
+  </div>
+  
+  {% if cart.item_count > 0 %}
+    <div class="cart-drawer-footer">
+      <div class="cart-subtotal">
+        <span>Subtotal</span>
+        <span data-cart-total>{{ cart.total_price | money }}</span>
+      </div>
+      
+      <div class="free-shipping-bar">
+        {% assign threshold = 10000 %}
+        {% assign remaining = threshold | minus: cart.total_price %}
+        {% if remaining > 0 %}
+          <p class="free-shipping-message">
+            Spend {{ remaining | money }} more for free shipping
+          </p>
+          {% assign progress = cart.total_price | times: 100 | divided_by: threshold %}
+        {% else %}
+          <p class="free-shipping-message success">
+            You qualify for free shipping!
+          </p>
+          {% assign progress = 100 %}
+        {% endif %}
+        
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: {{ progress }}%"></div>
+        </div>
+      </div>
+      
+      <a href="/checkout" class="btn btn-primary btn-checkout">Checkout</a>
+    </div>
+  {% endif %}
+</div>
+
+<div class="cart-drawer-overlay" data-cart-close></div>

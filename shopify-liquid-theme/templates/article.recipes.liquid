@@ -1,0 +1,147 @@
+<style>
+.recipe-article {
+  min-height: 100vh;
+  background: #fafafa;
+}
+
+.recipe-article__hero {
+  height: 60vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.recipe-article__hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.recipe-article__hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.7) 100%);
+  display: flex;
+  align-items: flex-end;
+  padding: 4rem 2rem;
+}
+
+.recipe-article__hero-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  color: white;
+}
+
+.recipe-article__category {
+  display: inline-block;
+  background: #FF2E7E;
+  padding: 0.5rem 1.25rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1.5rem;
+}
+
+.recipe-article__title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+
+.recipe-article__meta {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+.recipe-article__content {
+  max-width: 800px;
+  margin: -4rem auto 4rem;
+  background: white;
+  border-radius: 24px;
+  padding: 3rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.recipe-article__content h2 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 2rem;
+  color: #1a1a1a;
+  margin: 2.5rem 0 1.5rem;
+  background: linear-gradient(135deg, #FF2E7E 0%, #BA94FF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.recipe-article__content h3 {
+  font-size: 1.5rem;
+  color: #1a1a1a;
+  margin: 2rem 0 1rem;
+  font-weight: 700;
+}
+
+.recipe-article__content p {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.recipe-article__content ul,
+.recipe-article__content ol {
+  margin: 1.5rem 0;
+  padding-left: 2rem;
+}
+
+.recipe-article__content li {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: #333;
+  margin-bottom: 0.75rem;
+}
+
+.recipe-article__content li::marker {
+  color: #FF2E7E;
+}
+
+@media (max-width: 768px) {
+  .recipe-article__content {
+    margin: -2rem 1rem 2rem;
+    padding: 2rem;
+  }
+}
+</style>
+
+{% assign article = articles[article.handle] %}
+
+<article class="recipe-article">
+  <div class="recipe-article__hero">
+    {% if article.image %}
+      <img src="{{ article.image | image_url: width: 1600 }}" 
+           alt="{{ article.image.alt | escape }}"
+           class="recipe-article__hero-image">
+    {% endif %}
+    
+    <div class="recipe-article__hero-overlay">
+      <div class="recipe-article__hero-content">
+        {% if article.tags.size > 0 %}
+          <div class="recipe-article__category">{{ article.tags.first }}</div>
+        {% endif %}
+        <h1 class="recipe-article__title">{{ article.title }}</h1>
+        <div class="recipe-article__meta">{{ article.published_at | date: '%B %d, %Y' }}</div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="recipe-article__content">
+    {{ article.content }}
+  </div>
+</article>

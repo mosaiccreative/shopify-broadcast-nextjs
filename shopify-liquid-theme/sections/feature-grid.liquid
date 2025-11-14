@@ -1,0 +1,262 @@
+{%- style -%}
+  #broadcast-features-{{ section.id }} {
+    padding: 6rem 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    background: #0a0a0a;
+  }
+
+  #broadcast-features-{{ section.id }} .features-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  #broadcast-features-{{ section.id }} .features-heading {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: white;
+  }
+
+  /* Updated gradient to use new brand colors: Hot Pink, Soft Mint, Lilac */
+  #broadcast-features-{{ section.id }} .features-heading .gradient-text {
+    background: linear-gradient(135deg, #FF2E7E 0%, #7FFFD4 50%, #C9B7FF 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    background-size: 200% auto;
+    animation: gradientShift 3s ease-in-out infinite;
+  }
+
+  @keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  #broadcast-features-{{ section.id }} .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+
+  /* Less transparent background, solid illumination on hover */
+  #broadcast-features-{{ section.id }} .feature-item {
+    text-align: center;
+    padding: 3rem 2rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Stronger glow using brand Hot Pink color */
+  #broadcast-features-{{ section.id }} .feature-item::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 46, 126, 0.25) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  /* Solid background illumination on hover, less transparency */
+  #broadcast-features-{{ section.id }} .feature-item:hover {
+    background: rgba(255, 46, 126, 0.15);
+    border-color: rgba(255, 46, 126, 0.4);
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(255, 46, 126, 0.3);
+  }
+
+  #broadcast-features-{{ section.id }} .feature-item:hover::before {
+    opacity: 1;
+  }
+
+  /* Updated icon color to brand Hot Pink */
+  #broadcast-features-{{ section.id }} .feature-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 1.5rem;
+    color: #FF2E7E;
+    transition: all 0.4s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #broadcast-features-{{ section.id }} .feature-icon svg {
+    width: 100%;
+    height: 100%;
+    stroke-width: 1.5;
+  }
+
+  /* Stronger drop shadow with Hot Pink on hover */
+  #broadcast-features-{{ section.id }} .feature-item:hover .feature-icon {
+    transform: translateY(-10px) scale(1.1);
+    filter: drop-shadow(0 10px 20px rgba(255, 46, 126, 0.5));
+    animation: iconFloat 2s ease-in-out infinite;
+  }
+
+  @keyframes iconFloat {
+    0%, 100% { transform: translateY(-10px) scale(1.1); }
+    50% { transform: translateY(-15px) scale(1.15); }
+  }
+
+  #broadcast-features-{{ section.id }} .feature-title {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: white;
+  }
+
+  #broadcast-features-{{ section.id }} .feature-text {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  @media (max-width: 768px) {
+    #broadcast-features-{{ section.id }} {
+      padding: 3rem 1.5rem;
+    }
+
+    #broadcast-features-{{ section.id }} .features-grid {
+      gap: 1.5rem;
+    }
+  }
+{%- endstyle -%}
+
+<div id="broadcast-features-{{ section.id }}" class="broadcast-features-section" data-scroll-animate="fade-up">
+  {% if section.settings.heading != blank %}
+    <div class="features-header">
+      <!-- Added fade-up animation to heading -->
+      <h2 class="features-heading" data-animate="fade-up">
+        {% assign words = section.settings.heading | split: ' ' %}
+        {% for word in words %}
+          {% if word == 'Heat' %}
+            <span class="gradient-text">{{ word }}</span>
+          {% else %}
+            {{ word }}
+          {% endif %}
+        {% endfor %}
+      </h2>
+    </div>
+  {% endif %}
+
+  <!-- Added stagger-children to grid for sequential card animation -->
+  <div class="features-grid" data-stagger-children>
+    {% for block in section.blocks %}
+      <!-- Added fade-up animation to each feature card -->
+      <div class="feature-item" data-animate="fade-up" {{ block.shopify_attributes }}>
+        {% if block.settings.icon_type != blank %}
+          <div class="feature-icon">
+            {% case block.settings.icon_type %}
+              {% when 'heart' %}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                </svg>
+              {% when 'leaf' %}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
+                  <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+                </svg>
+              {% when 'flame' %}
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2c-1.5 4-4 6-4 11a4 4 0 0 0 8 0c0-5-2.5-7-4-11Z"/>
+                </svg>
+            {% endcase %}
+          </div>
+        {% endif %}
+
+        {% if block.settings.title != blank %}
+          <h3 class="feature-title">{{ block.settings.title }}</h3>
+        {% endif %}
+
+        {% if block.settings.text != blank %}
+          <p class="feature-text">{{ block.settings.text }}</p>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Broadcast Feature Grid",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The Art of Heat"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon_type",
+          "label": "Icon Type",
+          "options": [
+            {"value": "heart", "label": "Heart"},
+            {"value": "leaf", "label": "Leaf"},
+            {"value": "flame", "label": "Flame"}
+          ],
+          "default": "heart"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Heritage Reimagined"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Description",
+          "default": "Celebrating family recipes and street-food vibes with a modern twist. Every bottle tells a story."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Broadcast Feature Grid",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "icon_type": "heart",
+            "title": "Heritage Reimagined",
+            "text": "Celebrating family recipes and street-food vibes with a modern twist. Every bottle tells a story."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon_type": "leaf",
+            "title": "Flavorful Wellness",
+            "text": "100% real ingredients. Vegan, gluten-free, zero preservatives. Bold taste that respects your body."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon_type": "flame",
+            "title": "Small-Batch Crafted",
+            "text": "Handcrafted with premium ingredients for peak freshness. Every batch is a work of art."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

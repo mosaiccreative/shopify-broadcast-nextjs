@@ -1,0 +1,119 @@
+{%- style -%}
+  #broadcast-carousel-{{ section.id }} {
+    padding: 5rem 2rem;
+    background: {{ section.settings.background_color }};
+  }
+
+  #broadcast-carousel-{{ section.id }} .carousel-header {
+    max-width: 1400px;
+    margin: 0 auto 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  #broadcast-carousel-{{ section.id }} .carousel-heading {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    font-weight: 600;
+  }
+
+  #broadcast-carousel-{{ section.id }} .carousel-scroll {
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  #broadcast-carousel-{{ section.id }} .carousel-scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  #broadcast-carousel-{{ section.id }} .carousel-track {
+    display: flex;
+    gap: 2rem;
+    padding: 0 2rem;
+  }
+
+  #broadcast-carousel-{{ section.id }} .carousel-item {
+    flex: 0 0 300px;
+  }
+
+  @media (max-width: 768px) {
+    #broadcast-carousel-{{ section.id }} {
+      padding: 3rem 0;
+    }
+
+    #broadcast-carousel-{{ section.id }} .carousel-header {
+      padding: 0 1.5rem;
+    }
+
+    #broadcast-carousel-{{ section.id }} .carousel-item {
+      flex: 0 0 250px;
+    }
+  }
+{%- endstyle -%}
+
+<div id="broadcast-carousel-{{ section.id }}" class="broadcast-carousel-section" data-scroll-animate="slide-up">
+  <div class="carousel-header">
+    {% if section.settings.heading != blank %}
+      <h2 class="carousel-heading">{{ section.settings.heading }}</h2>
+    {% endif %}
+
+    {% if section.settings.view_all_link != blank %}
+      <a href="{{ section.settings.view_all_link }}" class="btn btn-secondary">
+        View All
+      </a>
+    {% endif %}
+  </div>
+
+  <div class="carousel-scroll">
+    <!-- Added stagger animation for carousel items -->
+    <div class="carousel-track" data-stagger-children>
+      {% assign collection = collections[section.settings.collection] %}
+      {% if collection.products.size > 0 %}
+        {% for product in collection.products limit: 8 %}
+          <div class="carousel-item" data-animate="fade-up">
+            {% render 'product-card-broadcast', product: product %}
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Product Carousel",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Featured Collection"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "url",
+      "id": "view_all_link",
+      "label": "View All Link"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#FFFFFF"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Carousel"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,153 @@
+/**
+ * Broadcast Theme - Scroll Animation Styles
+ * Base styles for scroll-triggered animations
+ */
+
+/* Base animation setup */
+[data-scroll-animate],
+[data-animate] {
+  --scroll-progress: 0;
+  --stagger-delay: 0ms;
+  opacity: 0;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+[data-scroll-animate].is-visible,
+[data-animate].is-visible {
+  opacity: 1;
+}
+
+/* Fade animations */
+[data-animate="fade"].is-visible {
+  opacity: 1;
+}
+
+[data-animate="fade-up"] {
+  transform: translateY(60px);
+}
+
+[data-animate="fade-up"].is-visible {
+  transform: translateY(0);
+  transition-delay: var(--stagger-delay);
+}
+
+[data-animate="fade-down"] {
+  transform: translateY(-60px);
+}
+
+[data-animate="fade-down"].is-visible {
+  transform: translateY(0);
+  transition-delay: var(--stagger-delay);
+}
+
+[data-animate="fade-left"] {
+  transform: translateX(60px);
+}
+
+[data-animate="fade-left"].is-visible {
+  transform: translateX(0);
+  transition-delay: var(--stagger-delay);
+}
+
+[data-animate="fade-right"] {
+  transform: translateX(-60px);
+}
+
+[data-animate="fade-right"].is-visible {
+  transform: translateX(0);
+  transition-delay: var(--stagger-delay);
+}
+
+/* Scale animations */
+[data-animate="scale-up"] {
+  transform: scale(0.9);
+}
+
+[data-animate="scale-up"].is-visible {
+  transform: scale(1);
+}
+
+[data-animate="scale-down"] {
+  transform: scale(1.1);
+}
+
+[data-animate="scale-down"].is-visible {
+  transform: scale(1);
+}
+
+/* Zoom animations */
+[data-animate="zoom"] {
+  transform: scale(0.8) translateY(40px);
+}
+
+[data-animate="zoom"].is-visible {
+  transform: scale(1) translateY(0);
+}
+
+/* Blur reveal */
+[data-animate="blur"] {
+  filter: blur(10px);
+  transform: translateY(20px);
+}
+
+[data-animate="blur"].is-visible {
+  filter: blur(0);
+  transform: translateY(0);
+}
+
+/* Flip animations */
+[data-animate="flip-up"] {
+  transform: perspective(1000px) rotateX(-10deg);
+  transform-origin: center bottom;
+}
+
+[data-animate="flip-up"].is-visible {
+  transform: perspective(1000px) rotateX(0);
+}
+
+/* Clip reveal */
+[data-animate="clip"] {
+  clip-path: inset(0 0 100% 0);
+}
+
+[data-animate="clip"].is-visible {
+  clip-path: inset(0 0 0 0);
+}
+
+/* Progress-based animations */
+[data-scroll-animate="progress"] {
+  opacity: var(--scroll-progress);
+  transform: translateY(calc((1 - var(--scroll-progress)) * 100px));
+}
+
+/* Parallax elements */
+[data-parallax] {
+  transition: transform 0.1s linear;
+  will-change: transform;
+}
+
+/* Stagger container */
+[data-stagger-children] {
+  perspective: 1000px;
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  [data-scroll-animate],
+  [data-animate],
+  [data-parallax] {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
+
+/* Performance optimizations */
+@media (max-width: 768px) {
+  [data-animate],
+  [data-scroll-animate] {
+    transition-duration: 0.5s;
+  }
+}

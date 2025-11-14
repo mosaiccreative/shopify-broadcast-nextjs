@@ -1,0 +1,441 @@
+<style>
+.product-cinematic {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 100%);
+  color: white;
+  padding: 2rem 0;
+}
+
+.product-hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  align-items: center;
+}
+
+.product-media {
+  position: relative;
+  animation: fadeSlideIn 1s ease forwards;
+}
+
+.product-media__main {
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 30px 60px rgba(255, 46, 126, 0.3);
+}
+
+.product-media__main img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.product-info {
+  animation: fadeSlideIn 1s ease forwards 0.2s;
+  opacity: 0;
+}
+
+.product-info__vendor {
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #BA94FF;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.product-info__title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  line-height: 1.1;
+  background: linear-gradient(135deg, #FF2E7E 0%, #BA94FF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.product-info__price {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #FF2E7E;
+  margin-bottom: 2rem;
+}
+
+/* Heat Scale Visualization */
+.heat-scale {
+  background: rgba(255, 46, 126, 0.1);
+  border: 1px solid rgba(255, 46, 126, 0.3);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.heat-scale__title {
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 1rem;
+}
+
+.heat-scale__bar {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.heat-scale__segment {
+  flex: 1;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.heat-scale__segment.active {
+  background: linear-gradient(90deg, #FF2E7E 0%, #ff6b4a 100%);
+  box-shadow: 0 0 20px rgba(255, 46, 126, 0.6);
+}
+
+.heat-scale__label {
+  font-size: 0.9375rem;
+  color: #FF2E7E;
+  font-weight: 600;
+}
+
+.product-info__description {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 2rem;
+}
+
+.product-form {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.product-form__variants {
+  margin-bottom: 1.5rem;
+}
+
+.product-form__label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.product-form__variant-buttons {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.variant-button {
+  padding: 0.75rem 1.5rem;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.variant-button:hover,
+.variant-button.active {
+  border-color: #FF2E7E;
+  background: rgba(255, 46, 126, 0.1);
+  color: #FF2E7E;
+}
+
+.product-form__quantity {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.quantity-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 0.5rem;
+}
+
+.quantity-button {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 1.25rem;
+}
+
+.quantity-button:hover {
+  background: #FF2E7E;
+}
+
+.quantity-input {
+  width: 60px;
+  text-align: center;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.product-form__submit {
+  width: 100%;
+  padding: 1.25rem 2rem;
+  background: #FF2E7E;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.125rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.product-form__submit:hover {
+  background: linear-gradient(135deg, #FF2E7E 0%, #BA94FF 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 15px 35px rgba(255, 46, 126, 0.4);
+}
+
+/* Product Details Section */
+.product-details {
+  max-width: 1400px;
+  margin: 4rem auto;
+  padding: 0 2rem;
+}
+
+.product-details__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.detail-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 2rem;
+  transition: all 0.4s ease;
+}
+
+.detail-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(255, 46, 126, 0.5);
+  box-shadow: 0 20px 40px rgba(255, 46, 126, 0.2);
+}
+
+.detail-card__icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.detail-card__title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #FF2E7E 0%, #BA94FF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.detail-card__text {
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 968px) {
+  .product-hero {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .product-info__title {
+    font-size: 2.5rem;
+  }
+}
+</style>
+
+<div class="product-cinematic">
+  <div class="product-hero">
+    <div class="product-media">
+      <div class="product-media__main">
+        {% if product.featured_media %}
+          <img src="{{ product.featured_media | image_url: width: 800 }}" 
+               alt="{{ product.featured_media.alt | escape }}"
+               width="800"
+               height="800">
+        {% else %}
+          {{ 'product-1' | placeholder_svg_tag }}
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="product-info">
+      {% if product.vendor != blank %}
+        <div class="product-info__vendor">{{ product.vendor }}</div>
+      {% endif %}
+      
+      <h1 class="product-info__title">{{ product.title }}</h1>
+      
+      <div class="product-info__price">{{ product.price | money }}</div>
+      
+      <!-- Heat Scale -->
+      {% assign heat_level = 0 %}
+      {% if product.tags contains 'mild' %}{% assign heat_level = 1 %}{% endif %}
+      {% if product.tags contains 'medium' %}{% assign heat_level = 2 %}{% endif %}
+      {% if product.tags contains 'hot' %}{% assign heat_level = 3 %}{% endif %}
+      {% if product.tags contains 'extra-hot' %}{% assign heat_level = 4 %}{% endif %}
+      
+      {% if heat_level > 0 %}
+        <div class="heat-scale">
+          <div class="heat-scale__title">Heat Level</div>
+          <div class="heat-scale__bar">
+            <div class="heat-scale__segment {% if heat_level >= 1 %}active{% endif %}"></div>
+            <div class="heat-scale__segment {% if heat_level >= 2 %}active{% endif %}"></div>
+            <div class="heat-scale__segment {% if heat_level >= 3 %}active{% endif %}"></div>
+            <div class="heat-scale__segment {% if heat_level >= 4 %}active{% endif %}"></div>
+          </div>
+          <div class="heat-scale__label">
+            {% if heat_level == 1 %}Mild - Perfect for beginners{% endif %}
+            {% if heat_level == 2 %}Medium - Balanced heat{% endif %}
+            {% if heat_level == 3 %}Hot - For heat lovers{% endif %}
+            {% if heat_level == 4 %}Extra Hot - Extreme heat{% endif %}
+          </div>
+        </div>
+      {% endif %}
+      
+      {% if product.description != blank %}
+        <div class="product-info__description">{{ product.description | strip_html | truncatewords: 50 }}</div>
+      {% endif %}
+      
+      <form method="post" action="/cart/add" class="product-form">
+        {% unless product.has_only_default_variant %}
+          <div class="product-form__variants">
+            <label class="product-form__label">Select Size</label>
+            <div class="product-form__variant-buttons">
+              {% for variant in product.variants %}
+                <button type="button" 
+                        class="variant-button {% if forloop.first %}active{% endif %}"
+                        data-variant-id="{{ variant.id }}">
+                  {{ variant.title }}
+                </button>
+              {% endfor %}
+            </div>
+          </div>
+        {% endunless %}
+        
+        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+        
+        <div class="product-form__quantity">
+          <label class="product-form__label">Quantity</label>
+          <div class="quantity-selector">
+            <button type="button" class="quantity-button" data-action="decrease">-</button>
+            <input type="number" 
+                   name="quantity" 
+                   value="1" 
+                   min="1" 
+                   class="quantity-input">
+            <button type="button" class="quantity-button" data-action="increase">+</button>
+          </div>
+        </div>
+        
+        <button type="submit" class="product-form__submit">Add to Cart</button>
+      </form>
+    </div>
+  </div>
+  
+  <!-- Product Details -->
+  <div class="product-details">
+    <div class="product-details__grid">
+      <div class="detail-card">
+        <div class="detail-card__icon">🌶️</div>
+        <h3 class="detail-card__title">Small-Batch Crafted</h3>
+        <p class="detail-card__text">Handcrafted in small batches to ensure the highest quality and freshest flavors in every bottle.</p>
+      </div>
+      
+      <div class="detail-card">
+        <div class="detail-card__icon">🌱</div>
+        <h3 class="detail-card__title">All Natural</h3>
+        <p class="detail-card__text">Made with natural ingredients, zero sugar, and low sodium for a healthier heat experience.</p>
+      </div>
+      
+      <div class="detail-card">
+        <div class="detail-card__icon">🔥</div>
+        <h3 class="detail-card__title">Bold Flavors</h3>
+        <p class="detail-card__text">Complex flavor profiles that blend traditional spices with modern culinary innovation.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Variant selection
+document.querySelectorAll('.variant-button').forEach(button => {
+  button.addEventListener('click', function() {
+    document.querySelectorAll('.variant-button').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    document.querySelector('input[name="id"]').value = this.dataset.variantId;
+  });
+});
+
+// Quantity controls
+document.querySelectorAll('.quantity-button').forEach(button => {
+  button.addEventListener('click', function() {
+    const input = this.parentElement.querySelector('.quantity-input');
+    const currentValue = parseInt(input.value);
+    
+    if (this.dataset.action === 'increase') {
+      input.value = currentValue + 1;
+    } else if (this.dataset.action === 'decrease' && currentValue > 1) {
+      input.value = currentValue - 1;
+    }
+  });
+});
+</script>
+
+{% schema %}
+{
+  "name": "🌶️ Cinematic Product",
+  "settings": [],
+  "blocks": []
+}
+{% endschema %}

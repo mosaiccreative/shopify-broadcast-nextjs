@@ -1,0 +1,149 @@
+<style>
+.about-values {
+  padding: 6rem 2rem;
+  background: linear-gradient(180deg, #fafafa 0%, #ffffff 100%);
+}
+
+.about-values__header {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 4rem;
+}
+
+.about-values__title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, #FF2E7E 0%, #BA94FF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.about-values__subtitle {
+  font-size: 1.125rem;
+  color: #666;
+  line-height: 1.8;
+}
+
+.about-values__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 3rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.value-card {
+  background: white;
+  padding: 3rem;
+  border-radius: 24px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards;
+}
+
+.value-card:nth-child(1) { animation-delay: 0.1s; }
+.value-card:nth-child(2) { animation-delay: 0.2s; }
+.value-card:nth-child(3) { animation-delay: 0.3s; }
+.value-card:nth-child(4) { animation-delay: 0.4s; }
+
+.value-card:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 20px 60px rgba(255, 46, 126, 0.15);
+}
+
+.value-card__icon {
+  font-size: 3.5rem;
+  margin-bottom: 1.5rem;
+  display: block;
+}
+
+.value-card__title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #1a1a1a;
+}
+
+.value-card__text {
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: #666;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .about-values__grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
+<section class="about-values">
+  <div class="about-values__header">
+    <h2 class="about-values__title">Our Values</h2>
+    <p class="about-values__subtitle">
+      We're committed to creating hot sauces that elevate every meal while honoring 
+      tradition, wellness, and the art of flavor.
+    </p>
+  </div>
+  
+  <div class="about-values__grid">
+    <div class="value-card">
+      <span class="value-card__icon">🔥</span>
+      <h3 class="value-card__title">Authentic Heat</h3>
+      <p class="value-card__text">
+        We source premium peppers and spices, honoring traditional flavor profiles 
+        while pushing the boundaries of heat and taste.
+      </p>
+    </div>
+    
+    <div class="value-card">
+      <span class="value-card__icon">🌱</span>
+      <h3 class="value-card__title">Clean Ingredients</h3>
+      <p class="value-card__text">
+        Zero sugar, low sodium, and 100% natural ingredients. We believe wellness 
+        and flavor go hand in hand.
+      </p>
+    </div>
+    
+    <div class="value-card">
+      <span class="value-card__icon">🎨</span>
+      <h3 class="value-card__title">Culinary Craft</h3>
+      <p class="value-card__text">
+        Small-batch production means every bottle receives the attention and care 
+        it deserves, from kitchen to table.
+      </p>
+    </div>
+    
+    <div class="value-card">
+      <span class="value-card__icon">🌏</span>
+      <h3 class="value-card__title">Community First</h3>
+      <p class="value-card__text">
+        We celebrate cultural heritage, support local farmers, and build connections 
+        through the universal language of food.
+      </p>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "About Values",
+  "settings": []
+}
+{% endschema %}

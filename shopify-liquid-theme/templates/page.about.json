@@ -1,0 +1,28 @@
+{
+  "sections": {
+    "about-hero": {
+      "type": "about-hero",
+      "settings": {
+        "title": "Regal Roots, Modern Plates",
+        "subtitle": "Our story is one of tradition, craftsmanship, and the perfect balance of heat and flavor."
+      }
+    },
+    "about-story": {
+      "type": "about-story",
+      "settings": {}
+    },
+    "about-values": {
+      "type": "about-values",
+      "settings": {}
+    },
+    "about-cta": {
+      "type": "about-cta",
+      "settings": {
+        "title": "Experience the Heat",
+        "button_text": "Shop Hot Sauces",
+        "button_link": "/collections/all"
+      }
+    }
+  },
+  "order": ["about-hero", "about-story", "about-values", "about-cta"]
+}

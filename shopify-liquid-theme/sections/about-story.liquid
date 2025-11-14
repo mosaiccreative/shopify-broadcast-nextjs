@@ -1,0 +1,165 @@
+<style>
+.about-story {
+  padding: 6rem 2rem;
+  background: white;
+}
+
+.about-story__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4rem;
+  align-items: center;
+}
+
+.about-story__content {
+  opacity: 0;
+  animation: fadeSlideIn 1s ease forwards;
+}
+
+.about-story__eyebrow {
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: #FF2E7E;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.about-story__title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 700;
+  margin-bottom: 2rem;
+  line-height: 1.2;
+  background: linear-gradient(135deg, #FF2E7E 0%, #BA94FF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.about-story__text {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.about-story__image {
+  position: relative;
+  opacity: 0;
+  animation: fadeSlideIn 1s ease forwards 0.3s;
+}
+
+.about-story__image img {
+  width: 100%;
+  height: auto;
+  border-radius: 24px;
+  box-shadow: 0 20px 60px rgba(255, 46, 126, 0.2);
+}
+
+.about-story__highlight {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.about-story__stat {
+  text-align: center;
+  padding: 2rem;
+  background: rgba(255, 46, 126, 0.05);
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+.about-story__stat:hover {
+  transform: translateY(-8px);
+  background: rgba(255, 46, 126, 0.1);
+  box-shadow: 0 10px 30px rgba(255, 46, 126, 0.15);
+}
+
+.about-story__stat-number {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 3rem;
+  font-weight: 700;
+  color: #FF2E7E;
+  margin-bottom: 0.5rem;
+}
+
+.about-story__stat-label {
+  font-size: 1rem;
+  color: #666;
+  font-weight: 600;
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 968px) {
+  .about-story__container {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  
+  .about-story__highlight {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
+<section class="about-story">
+  <div class="about-story__container">
+    <div class="about-story__content">
+      <div class="about-story__eyebrow">Our Origin</div>
+      <h2 class="about-story__title">Heritage Reimagined</h2>
+      <p class="about-story__text">
+        Every bottle of Plated By Py tells a story of tradition meeting innovation. 
+        Rooted in generations of Indian culinary wisdom, we craft hot sauces that honor 
+        authentic flavors while embracing modern wellness and bold creativity.
+      </p>
+      <p class="about-story__text">
+        From family recipes passed down through decades to small-batch production in our 
+        kitchen, each sauce is a labor of love. We blend time-tested spices with unexpected 
+        ingredients, creating heat that's as complex as it is memorable.
+      </p>
+    </div>
+    
+    <div class="about-story__image">
+      <img src="/images/design-mode/hero-fire-EMSUoQ9g.jpg" 
+           alt="Plated By Py hot sauces"
+           loading="lazy">
+    </div>
+  </div>
+  
+  <div class="about-story__highlight">
+    <div class="about-story__stat">
+      <div class="about-story__stat-number">100%</div>
+      <div class="about-story__stat-label">Natural Ingredients</div>
+    </div>
+    <div class="about-story__stat">
+      <div class="about-story__stat-number">0g</div>
+      <div class="about-story__stat-label">Added Sugar</div>
+    </div>
+    <div class="about-story__stat">
+      <div class="about-story__stat-number">Small</div>
+      <div class="about-story__stat-label">Batch Crafted</div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "About Story",
+  "settings": []
+}
+{% endschema %}
